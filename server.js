@@ -2,21 +2,16 @@ const express = require("express");
 const app = express();
 require("dotenv").config({ path: "./config/.env" });
 const mongoose = require("mongoose");
-const User = require("./models/User.js");
-const bodyParser = require("body-parser");
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
-app.use(bodyParser.json());
+const User = require("./models/user.js");
 
 // connection to database---------------------------------------
-mongoose
-  .connect(process.env.MONGO_URI)
+ mongoose.connect('mongodb://127.0.0.1:27017/user')
   .then(() => console.log("db connected"))
   .catch((err) => console.log(err));
+  app.use(express.json());
+  app.use(require("./routes/index"))
 
-//routes--------------------------------------------------------
+/*routes--------------------------------------------------------
 app.post("/", async (req, res, next) => {
   const newUser = new User(req.body);
   try {
@@ -58,6 +53,7 @@ app.delete("/:id", async (req, res, next) => {
   }
 });
 
-// run the server-----------------------------------------------
-const port = process.env.PORT;
+
+// run the server-----------------------------------------------*/
+const port = process.env.PORT || 4000;
 app.listen(port, () => console.log("SERVER RUN IN PORT ", port));
